@@ -1,1 +1,42 @@
-<p>home works!</p>
+
+<form #formData="ngForm" (ngSubmit)="sendForm()">
+
+    <p>INSERTAR AREA</p>
+    <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Width</span>
+            <input type="text" class="form-control" placeholder="" aria-label="width" aria-describedby="basic-addon1">
+            <span class="input-group-text" id="basic-addon1">Height</span>
+            <input type="text" class="form-control" placeholder="" aria-label="height" aria-describedby="basic-addon2">
+      </div>
+
+      <p>INSERTAR ROVER</p>
+ 
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Coordenada X</span>
+            <input type="text" class="form-control" placeholder="" aria-label="width" aria-describedby="basic-addon1">
+            <span class="input-group-text" id="basic-addon1">Coordenada Y</span>
+            <input type="text" class="form-control" placeholder="" aria-label="height" aria-describedby="basic-addon2">
+            <span class="input-group-text" id="basic-addon1">Orientation</span>
+            <select class="form-select" aria-label="Default select example">
+                <option selected value="1">N</option>
+                <option value="2">S</option>
+                <option value="3">E</option>
+                <option value="3">W</option>
+              </select>
+        </div>
+
+        <p>AÑADIR COMADOS</p>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-primary">Left</button>
+            <button type="button" class="btn btn-primary">Advance</button>
+            <button type="button" class="btn btn-primary">Right</button>
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="floatingInput" placeholder="">
+                <label for="floatingInput">Linea de Comandos</label>
+              </div>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">START</button>
+        </div>
+   
+</form>

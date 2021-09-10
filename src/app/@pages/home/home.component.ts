@@ -9,6 +9,13 @@ export class HomeComponent implements OnInit {
 
   constructor() { }
 
+  sendForm(){
+   /* 
+    console.log("Persona: nombre"+ this.persona.nombre +" "+ this.persona.edad)
+    this.registros.push(this.persona);
+*/
+  }
+
   ngOnInit(): void {
   }
 

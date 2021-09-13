@@ -1,42 +1,123 @@
 
-<form #formData="ngForm" (ngSubmit)="sendForm()">
+<form id="homeForm" (ngSubmit)="sendData()" autocomplete='off' [formGroup]='homeForm' class="m-2">
 
-    <p>INSERTAR AREA</p>
-    <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">Width</span>
-            <input type="text" class="form-control" placeholder="" aria-label="width" aria-describedby="basic-addon1">
-            <span class="input-group-text" id="basic-addon1">Height</span>
-            <input type="text" class="form-control" placeholder="" aria-label="height" aria-describedby="basic-addon2">
-      </div>
-
-      <p>INSERTAR ROVER</p>
- 
-        <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">Coordenada X</span>
-            <input type="text" class="form-control" placeholder="" aria-label="width" aria-describedby="basic-addon1">
-            <span class="input-group-text" id="basic-addon1">Coordenada Y</span>
-            <input type="text" class="form-control" placeholder="" aria-label="height" aria-describedby="basic-addon2">
-            <span class="input-group-text" id="basic-addon1">Orientation</span>
-            <select class="form-select" aria-label="Default select example">
-                <option selected value="1">N</option>
-                <option value="2">S</option>
-                <option value="3">E</option>
-                <option value="3">W</option>
-              </select>
+    <!--*******AREA*******-->
+    <div class="border border-warning border-3 rounded mb-3 p-4">
+        <h5 class="text-warning">AREA</h5>
+    
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <div class="col input-group mb-3">
+                <span class="input-group-text">Width</span>
+                <input type="text" class="form-control" formControlName="areaSizeX">
+            </div>
+                <span class="form-text text-danger"
+                    *ngIf="isValid('areaSizeX')">
+                    Debe ser un número mayor que 0
+                </span>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <div class="col input-group mb-3">
+                <span class="input-group-text">Height</span>
+                <input type="text" class="form-control" formControlName="areaSizeY">
+            </div>
+                <span class="form-text text-danger"
+                    *ngIf="isValid('areaSizeY')">
+                    Debe ser un número mayor que 0
+                </span>
+            </div>           
         </div>
+    </div>
+    <!--*******ROVER*******-->
+    <div class="border border-warning border-3 rounded mb-3 p-4">
+        <h5 class="text-warning">ROVER</h5>
 
-        <p>AÑADIR COMADOS</p>
-        <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-primary">Left</button>
-            <button type="button" class="btn btn-primary">Advance</button>
-            <button type="button" class="btn btn-primary">Right</button>
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="floatingInput" placeholder="">
-                <label for="floatingInput">Linea de Comandos</label>
-              </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-4">
+                <div class="col input-group mb-3">
+                    <span class="input-group-text">Position X</span>
+                    <input type="text" class="form-control" formControlName="positionX">
+                </div>
+                <span class="form-text text-danger"
+                    *ngIf="isValid('positionX')">
+                    Debe ser un número mayor que 0
+                </span>
+            </div>
+            <div class="col-xs-12 col-md-4">
+                <div class="col input-group mb-3">
+                    <span class="input-group-text">Position Y</span>
+                    <input type="text" class="form-control" formControlName="positionY">
+                </div>
+                <span class="form-text text-danger"
+                    *ngIf="isValid('positionY')">
+                    Debe ser un número mayor que 0
+                </span>
+            </div>   
+            <div class="col-xs-12 col-md-4">
+                <div class="col input-group mb-3">
+                    <span class="input-group-text">Orientation</span>
+                    <select class="form-select" formControlName="orientation">
+                        <option value="1">N</option>
+                        <option value="2">S</option>
+                        <option value="3">E</option>
+                        <option value="3">W</option>
+                    </select>
+                </div>
+                <span class="form-text text-danger"
+                    *ngIf="isValid('orientation')">
+                    Debes seleccionar un elemento
+                </span>
+            </div>             
         </div>
-        <div>
-            <button type="submit" class="btn btn-primary">START</button>
+    </div>
+
+    <!--*******COMMANDS*******-->
+    <div class="border border-warning border-3 rounded mb-3 p-4">
+        <h5 class="text-warning">INSERT COMMANDS</h5>
+        <div class="text-center">
+
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-primary">Left</button>
+                <button type="button" class="btn btn-primary">Advance</button>
+                <button type="button" class="btn btn-primary">Right</button>
+                
+            </div>
+            <div class="">
+                <p>Selected commands</p>
+            </div>
+
+        </div>
+       
+    </div>   
+
+    <!--*******SUBMIT*******-->
+        <div class="d-flex justify-content-center">
+            <button type="submit" 
+                class="btn btn-warning">
+                START
+            </button>
         </div>
    
 </form>
+
+
+
+<div class="row">
+    <div class="col">
+        <span>Valid</span>
+        <pre>{{homeForm.valid}}</pre>
+    </div>
+    <div class="col">
+        <span>Pristine</span>
+        <pre>{{homeForm.pristine}}</pre>
+    </div>
+    <div class="col">
+        <span>Touched</span>
+        <pre>{{homeForm.touched}}</pre>
+    </div>
+    <div class="col">
+        <span>Value</span>
+        <pre>{{homeForm.value | json}</pre>
+    </div>
+    
+</div>

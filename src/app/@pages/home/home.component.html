@@ -77,13 +77,19 @@
         <div class="text-center">
 
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-primary">Left</button>
-                <button type="button" class="btn btn-primary">Advance</button>
-                <button type="button" class="btn btn-primary">Right</button>
+                <button type="button" class="btn btn-primary" (click)="saveLeft()">Left</button>
+                <button type="button" class="btn btn-primary" (click)="saveAdvance()">Advance</button>
+                <button type="button" class="btn btn-primary" (click)="saveRight()">Right</button>
                 
             </div>
             <div class="">
-                <p>Selected commands</p>
+                <fieldset disabled>
+                <input type="text" class="form-control text-primary fs-2 fw-bold m-2 bg-white border-0 text-center" formControlName="commandsInput" [ngModel]="this.commandsTxt">
+                </fieldset>
+                <span class="form-text text-danger"
+                    *ngIf="isValid('commandsInput')">
+                    Tienes que definir la linea de comandos
+                </span>
             </div>
 
         </div>
@@ -93,7 +99,7 @@
     <!--*******SUBMIT*******-->
         <div class="d-flex justify-content-center">
             <button type="submit" 
-                class="btn btn-warning">
+                class="btn btn-warning fw-bold text-light" [disabled]="homeForm.invalid">
                 START
             </button>
         </div>
@@ -101,7 +107,7 @@
 </form>
 
 
-
+<!--
 <div class="row">
     <div class="col">
         <span>Valid</span>
@@ -121,3 +127,4 @@
     </div>
     
 </div>
+-->

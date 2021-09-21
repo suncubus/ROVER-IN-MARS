@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -7,19 +8,20 @@ import { BehaviorSubject } from 'rxjs';
 
 export class FormDataService {
 
-  //
-  public enviarRecibir = new BehaviorSubject<string>("");
-  //
-  enviarRecibir$ = this.enviarRecibir.asObservable();
+  //Es un tipo de observable, que permite la transmisión múltiple de valores a muchos observadores simultáneos y donde siempre se almacena y permanece disponible el valor actual. Es por ello que cada vez que un nuevo consumidor se suscribe al dato, siempre recibirá el valor actual. Al crearlo hay que pasarle un valor
+  private enviarRecibir = new BehaviorSubject<string>("");
 
-  constructor() { }
+  //Es el observable del beahviorSubject
+  public enviarRecibir$ = this.enviarRecibir.asObservable();
 
-  sendData(formData: string){
-    console.log(formData);
+  constructor( ) { }
+
+  setData(formData: string){
+    //Emito un valor, al flujo de datos
     this.enviarRecibir.next(formData);
   }
-  receiveData(){
-    console.log("entro en receiveData");
-    // this.datosSubscription = this.data.enviarRecibir$.subscribe(datos => this.datos = datos);
+  getData(){
+    return this.enviarRecibir$;
+
   }
 }

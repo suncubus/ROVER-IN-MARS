@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-
 import { FormDataService } from 'src/app/services/form-data.service';
 import { Subscription } from 'rxjs';
+
 //interfaces
-import { Area, Rover} from '../../interfaces/interfaces'
+import { Area, Rover} from '../../interfaces/interfaces';
+
 @Component({
   selector: 'app-rover',
   templateUrl: './rover.component.html',
@@ -15,20 +16,19 @@ export class RoverComponent implements OnInit, OnDestroy {
   area: Area[] = [];
 
   datos:string;
-  subscription: Subscription;
 
+  subscription: Subscription;
   private datosSubscription: Subscription | undefined;
 
-  constructor( formDataServise:FormDataService, private data:FormDataService ) { }
+  constructor( private data:FormDataService ) { }
 
   ngOnInit(): void {
-
-    this.data.receiveData();
-   
-    //this.datosSubscription = this.data.enviarRecibir$.subscribe(datos => this.datos = datos);
-
+    this.datosSubscription =  this.data.getData().subscribe(datos => {
+      this.datos = datos;
+      console.log("datos:",  this.datos);
+    });
   }
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.subscription.unsubscribe(); 
   }
 }

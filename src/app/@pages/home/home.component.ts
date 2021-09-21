@@ -42,21 +42,18 @@ export class HomeComponent {
   }
 
   //recibimos el submit
-  sendData(){
-    
+  sendData(){    
     //si no es válido
     if(this.homeForm.invalid){
       //Pone como si todos los campos han sido tocados
       this.homeForm.markAllAsTouched();
-      return
+      return;
     }else{
-
-
       //convierto a string
       this.formu = JSON.stringify(this.homeForm.value);
       //convierto a objeto
       //let formuValues = JSON.parse(formu);
-      this.data.sendData(this.formu);
+      this.data.setData(this.formu);
 
       this.router.navigate(['/rover']);
       ////vaciamos el formulario

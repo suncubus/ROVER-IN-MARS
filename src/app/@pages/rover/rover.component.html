@@ -1,20 +1,11 @@
 
-<table class="table table-bordered border-primary" *ngIf="areaChild">
-  <!-- <tbody *ngFor = "let key of areaChild.areaX">
-          <tr *ngFor = "let item of areaChild.areaY">
-              <td id="" class="table-dark">celda</td>
-          </tr>
-          
-      </tbody>
-  
- 
-  
-  {{areaChild.areaX}} = td
-  {{areaChild.areaY}} = tr
-  {{roverChild.roverX}}
-  {{roverChild.roverY}}
-       -->
-  </table>
+<table class="table table-bordered border-primary">
+  <tbody >
+          <tr *ngFor = "let item of tableX ">
+              <td id="" class="table-dark" *ngFor = "let item of tableY">celda</td>
+          </tr>          
+  </tbody>
+</table>
 
   <ul class="list-group list-group-flush">
     <li class="list-group-item d-flex justify-content-between align-items-start">

@@ -12,7 +12,6 @@ import { Area, Rover} from '../../interfaces/interfaces';
 })
 
 export class RoverComponent implements OnInit, OnDestroy {
-
   
   area:Area={}; //interface ? propiedades opcionales / inicializar
   rover: Rover = new Rover(); //clase
@@ -23,6 +22,10 @@ export class RoverComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   public datosSubscription: Subscription | undefined;
 
+  //variables tabla
+  tableX: number[] = [];
+  tableY: number[] = [];
+
   constructor( private data:FormDataService ) { }
 
   ngOnInit(): void {
@@ -30,14 +33,17 @@ export class RoverComponent implements OnInit, OnDestroy {
         this.dataObtained = info;
     });
    //convertimos el string a objeto
-    this.dataObj = JSON.parse(this.dataObtained); 
+    this.dataObj = JSON.parse(this.dataObtained);
+
     this.saveData(this.dataObj);
+    this.createTable();
+
   }
   ngOnDestroy() {
     this.subscription.unsubscribe(); 
   }
 
-  //Almacenar datos
+  //Almacenar datos en los objetos 
   saveData(dataObt:any){
     this.area.areaX = parseInt(dataObt.areaSizeX);
     this.area.areaY = parseInt(dataObt.areaSizeY);
@@ -46,5 +52,18 @@ export class RoverComponent implements OnInit, OnDestroy {
     this.rover.roverY = parseInt(dataObt.positionY);
     this.rover.roverOrientation = dataObt.orientation;
     this.rover.roverCommands = dataObt.commandsInput;
+  }
+
+  //creamos los arrays para generar la tabla
+  createTable(){
+    //PROMESAS ???
+    if(this.area.areaX  && this.area.areaY){
+      for (let i:number = 0; i < this.area.areaX; i++) {
+        this.tableX.push(i);
+      }
+      for (let i:number = 0; i < this.area.areaY; i++) {
+        this.tableY.push(i);
+      }
+    }
   }
 }

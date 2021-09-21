@@ -5,18 +5,22 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { HomeModule } from './@pages/home/home.module';
+import { RoverModule } from './@pages/rover/rover.module';
+
+
 
 
 
 @NgModule({
   declarations: [
-    AppComponent
-    
+    AppComponent,
+ 
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HomeModule
+    HomeModule,
+    RoverModule
   ],
 
   providers: [],

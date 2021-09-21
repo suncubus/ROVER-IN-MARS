@@ -39,13 +39,12 @@ export class RoverComponent implements OnInit, OnDestroy {
 
   //Almacenar datos
   saveData(dataObt:any){
-   this.area.areaX = parseInt(dataObt.areaSizeX);
-   this.area.areaY = parseInt(dataObt.areaSizeY);
+    this.area.areaX = parseInt(dataObt.areaSizeX);
+    this.area.areaY = parseInt(dataObt.areaSizeY);
 
-   this.rover.roverX = parseInt(dataObt.positionX);
-   this.rover.roverY = parseInt(dataObt.positionY);
-   this.rover.roverOrientation = dataObt.orientation;
-   this.rover.roverCommands = dataObt.commandsInput;
-
+    this.rover.roverX = parseInt(dataObt.positionX);
+    this.rover.roverY = parseInt(dataObt.positionY);
+    this.rover.roverOrientation = dataObt.orientation;
+    this.rover.roverCommands = dataObt.commandsInput;
   }
 }

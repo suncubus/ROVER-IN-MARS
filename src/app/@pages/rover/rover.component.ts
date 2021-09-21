@@ -13,22 +13,39 @@ import { Area, Rover} from '../../interfaces/interfaces';
 
 export class RoverComponent implements OnInit, OnDestroy {
 
-  area: Area[] = [];
+  
+  area:Area={}; //interface ? propiedades opcionales / inicializar
+  rover: Rover = new Rover(); //clase
 
-  datos:string;
+  dataObtained:string;
+  dataObj:any;
 
   subscription: Subscription;
-  private datosSubscription: Subscription | undefined;
+  public datosSubscription: Subscription | undefined;
 
   constructor( private data:FormDataService ) { }
 
   ngOnInit(): void {
-    this.datosSubscription =  this.data.getData().subscribe(datos => {
-      this.datos = datos;
-      console.log("datos:",  this.datos);
+    this.datosSubscription =  this.data.getData().subscribe(info => {
+        this.dataObtained = info;
     });
+   //convertimos el string a objeto
+    this.dataObj = JSON.parse(this.dataObtained); 
+    this.saveData(this.dataObj);
   }
   ngOnDestroy() {
     this.subscription.unsubscribe(); 
+  }
+
+  //Almacenar datos
+  saveData(dataObt:any){
+   this.area.areaX = parseInt(dataObt.areaSizeX);
+   this.area.areaY = parseInt(dataObt.areaSizeY);
+
+   this.rover.roverX = parseInt(dataObt.positionX);
+   this.rover.roverY = parseInt(dataObt.positionY);
+   this.rover.roverOrientation = dataObt.orientation;
+   this.rover.roverCommands = dataObt.commandsInput;
+
   }
 }

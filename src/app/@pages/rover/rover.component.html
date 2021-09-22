@@ -1,11 +1,12 @@
 
-<table class="table table-bordered border-primary">
+<table class="table table-bordered border-primary table-dark" [ngStyle]="{'width':this.widthPixels, 'height':this.heightPixels}">
   <tbody >
-          <tr *ngFor = "let item of tableX ">
-              <td id="" class="table-dark" *ngFor = "let item of tableY">celda</td>
+          <tr *ngFor = "let item1 of tableX; index as i " id="{{i}}" >
+              <td *ngFor = "let item2 of tableY; index as j" id="{{j}}" ><i class="bi bi-capslock"></i></td>
           </tr>          
   </tbody>
 </table>
+
 
   <ul class="list-group list-group-flush">
     <li class="list-group-item d-flex justify-content-between align-items-start">

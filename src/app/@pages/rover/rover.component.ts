@@ -26,15 +26,20 @@ export class RoverComponent implements OnInit, OnDestroy {
   tableX: number[] = [];
   tableY: number[] = [];
 
+  widthPixels:string = "";
+  heightPixels:string = "";
+
+
   constructor( private data:FormDataService ) { }
 
   ngOnInit(): void {
     this.datosSubscription =  this.data.getData().subscribe(info => {
         this.dataObtained = info;
     });
-   //convertimos el string a objeto
+    //convertimos el string a objeto
     this.dataObj = JSON.parse(this.dataObtained);
 
+    /*PROMESAS ??? */
     this.saveData(this.dataObj);
     this.createTable();
 
@@ -54,16 +59,15 @@ export class RoverComponent implements OnInit, OnDestroy {
     this.rover.roverCommands = dataObt.commandsInput;
   }
 
-  //creamos los arrays para generar la tabla
+  //Generamos la tabla
   createTable(){
-    //PROMESAS ???
     if(this.area.areaX  && this.area.areaY){
-      for (let i:number = 0; i < this.area.areaX; i++) {
-        this.tableX.push(i);
-      }
-      for (let i:number = 0; i < this.area.areaY; i++) {
-        this.tableY.push(i);
-      }
+      //crear celdas
+      this.tableX.length = this.area.areaX;
+      this.tableY.length = this.area.areaY;
+      //tamaño de celdas
+      this.widthPixels = ((this.area.areaX * 2)+"%").toString();
+      this.heightPixels = ((this.area.areaY * 2)+"%").toString();  
     }
   }
 }

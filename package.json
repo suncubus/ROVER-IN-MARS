@@ -1,9 +1,15 @@
 {
   "name": "roverinmars",
-  "version": "0.0.0",
+  "description": "Prueba Técnica",
+  "version": "0.0.1",
+  "author": {
+    "name": "Patricia",
+    "url": "http://www.patriciagarcia.dx.am"
+  },
   "scripts": {
+    "app": "npm install && npm run && ng serve",
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve -o",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"

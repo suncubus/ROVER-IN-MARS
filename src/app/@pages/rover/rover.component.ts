@@ -104,6 +104,7 @@ export class RoverComponent implements OnInit, OnDestroy {
   element:HTMLElement | null;
   //mostrar rover 
   roverInGrid(){   
+      //NO SE COMO USARVIEWCHILD CON ID DINÁMICO
       this.cd.detectChanges();
       this.element = document.getElementById(this.currentId);
       if (this.element) {
@@ -117,7 +118,8 @@ export class RoverComponent implements OnInit, OnDestroy {
   } 
   
   //linea de comandos, recorremos string
-  commandsLine(){        
+  commandsLine(){  
+      
     for(let i of this.rover.roverCommands) {
         //enviar comandos 
         switch( i ){
@@ -142,6 +144,7 @@ export class RoverComponent implements OnInit, OnDestroy {
               this.element.innerHTML= '<i class="bi bi-capslock" #roverElement></i>';
               break;
             case "L":
+              //TENGO QUE APLICARSELO AL HIJO Y NO SE COMO
               this.element.style.transform ="rotate(90deg)";
               break;
             case "R":
@@ -165,10 +168,12 @@ export class RoverComponent implements OnInit, OnDestroy {
   }
   //navegar a home
   
-  return(){
-    console.log("volver");
-    this.router.navigate(['..']);
-  }
+return(){
+  console.log("volver");
+  //NO SE COMO VOLVER A HOME, HE PROBADO CON LOCATION, TAMPOCO, EN LA URL SIGUE PONIENDO /rover
+  //this.router.navigate(['..']);
+  this.router.navigate(['/home']);
+}
 }
 
 

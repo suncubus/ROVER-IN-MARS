@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { FormDataService } from 'src/app/services/form-data.service';
 import { Subscription } from 'rxjs';
 
-//interfaces
+//interfaces y clases
 import { Area, Rover} from '../../interfaces/interfaces';
 
 @Component({
@@ -11,7 +11,7 @@ import { Area, Rover} from '../../interfaces/interfaces';
   styleUrls: ['./rover.component.scss']
 })
 
-export class RoverComponent implements OnInit, OnDestroy {
+export class RoverComponent implements OnInit, OnDestroy, AfterViewInit {
   
   area:Area={}; //interface ? propiedades opcionales / inicializar
   rover: Rover = new Rover(); //clase
@@ -29,8 +29,13 @@ export class RoverComponent implements OnInit, OnDestroy {
   widthPixels:string = "";
   heightPixels:string = "";
 
+  currentId:string = "";
+  positionInitX: number = 0;
+  positionInitY: number = 0;
+  orientationInit: string = "";
+ 
 
-  constructor( private data:FormDataService ) { }
+  constructor( private data:FormDataService,public elementRef: ElementRef, private cd:ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.datosSubscription =  this.data.getData().subscribe(info => {
@@ -41,13 +46,13 @@ export class RoverComponent implements OnInit, OnDestroy {
 
     /*PROMESAS ??? */
     this.saveData(this.dataObj);
-    this.createTable();
 
   }
+
+  
   ngOnDestroy() {
     this.subscription.unsubscribe(); 
   }
-
   //Almacenar datos en los objetos 
   saveData(dataObt:any){
     this.area.areaX = parseInt(dataObt.areaSizeX);
@@ -57,6 +62,15 @@ export class RoverComponent implements OnInit, OnDestroy {
     this.rover.roverY = parseInt(dataObt.positionY);
     this.rover.roverOrientation = dataObt.orientation;
     this.rover.roverCommands = dataObt.commandsInput;
+
+    //posicion inicial
+    this.positionInitX= this.rover.roverX;
+    this.positionInitY = this.rover.roverY;
+    this.orientationInit = this.rover.roverOrientation;
+    //id de la celda en la que comienza el rover 
+    this.currentId = this.positionInitX.toString() + this.positionInitY.toString();
+    
+    this.createTable();
   }
 
   //Generamos la tabla
@@ -65,9 +79,52 @@ export class RoverComponent implements OnInit, OnDestroy {
       //crear celdas
       this.tableX.length = this.area.areaX;
       this.tableY.length = this.area.areaY;
-      //tamaño de celdas
-      this.widthPixels = ((this.area.areaX * 2)+"%").toString();
-      this.heightPixels = ((this.area.areaY * 2)+"%").toString();  
+      
+      //tamaño de la tabla celdas 
+      this.widthPixels = ((this.area.areaX * 4)+"%").toString();
+      this.heightPixels = ((this.area.areaY * 4)+"%").toString();  
+    } 
+  }
+  changeId(x:number,y:number){
+    return (x+1).toString() + (y+1).toString();
+  }
+ 
+  commandsLine(){
+ 
+
+    //linea de comandos
+    for(let i of this.rover.roverCommands) {
+        switch( i ){
+          case "A":
+            this.rover.advance();
+            break;
+          case "L":
+             this.rover.left();
+            break;
+          case "R":
+             this.rover.right();
+            break;
+        }
+
     }
+  
+  }
+  ngAfterViewInit(){
+      //mostrar rover 
+    this.cd.detectChanges();
+    let element = document.getElementById(this.currentId);
+
+    if (element) {
+      console.log(element)
+      element.innerHTML= '<i class="bi bi-capslock" #roverElement></i>';
+      //this.commandsLine();
+     
+    }
+   
+    
   }
 }
+
+
+
+    //let roverInsideGrid = true;

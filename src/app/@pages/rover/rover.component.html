@@ -1,14 +1,15 @@
 
 <table class="table table-bordered border-primary table-dark" [ngStyle]="{'width':this.widthPixels, 'height':this.heightPixels}">
   <tbody >
-          <tr *ngFor = "let item1 of tableX; index as i " id="{{i}}" >
-              <td *ngFor = "let item2 of tableY; index as j" id="{{j}}" ><i class="bi bi-capslock"></i></td>
+          <tr *ngFor = "let item1 of tableX; index as i" >
+            <td *ngFor = "let item2 of tableY; index as j" [id]="changeId((j+1),(i+1))">
+                <!--Aquí se cargará el rover, en la celda seleccionada por el usuario-->
+              </td>
           </tr>          
   </tbody>
 </table>
 
-
-  <ul class="list-group list-group-flush">
+  <ul class="list-group list-group-flush w-40">
     <li class="list-group-item d-flex justify-content-between align-items-start">
       <div class="ms-2 me-auto">
         <div class="fw-bold">Dentro?</div>
@@ -17,20 +18,44 @@
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-start">
       <div class="ms-2 me-auto">
-        <div class="fw-bold">Orientation</div>
+        <div class="fw-bold">Initial Orientation</div>
       </div>
-      <span class="badge bg-primary rounded-pill">{{this.rover.roverOrientation}}</span>
+      <span class="badge bg-primary rounded-pill">{{this.orientationInit}}</span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-start">
       <div class="ms-2 me-auto">
-        <div class="fw-bold">Coordenate X</div>
+        <div class="fw-bold">Initial Position X</div>
+      </div>
+      <span class="badge bg-primary rounded-pill">{{this.positionInitX}}</span>
+    </li>
+    <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto">
+          <div class="fw-bold">Initial Position Y</div>
+        </div>
+        <span class="badge bg-primary rounded-pill">{{this.positionInitY}}</span>
+    </li>
+    <li class="list-group-item d-flex justify-content-between align-items-start">
+      <div class="ms-2 me-auto">
+        <div class="fw-bold">Commands</div>
+      </div>
+      <span class="badge bg-primary rounded-pill">{{this.rover.roverCommands}}</span>
+    </li>
+    <li class="list-group-item d-flex justify-content-between align-items-start">
+      <div class="ms-2 me-auto">
+        <div class="fw-bold">Final Position X</div>
       </div>
       <span class="badge bg-primary rounded-pill">{{this.rover.roverX}}</span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-start">
         <div class="ms-2 me-auto">
-          <div class="fw-bold">Coordenate Y</div>
+          <div class="fw-bold">Final Position Y</div>
         </div>
         <span class="badge bg-primary rounded-pill">{{this.rover.roverY}}</span>
-      </li>
+    </li>
+    <li class="list-group-item d-flex justify-content-between align-items-start">
+      <div class="ms-2 me-auto">
+        <div class="fw-bold">Orientation</div>
+      </div>
+      <span class="badge bg-primary rounded-pill">{{this.rover.roverOrientation}}</span>
+    </li>
 </ul>

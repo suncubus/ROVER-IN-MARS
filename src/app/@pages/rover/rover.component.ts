@@ -86,9 +86,7 @@ export class RoverComponent implements OnInit, OnDestroy {
       //creamos la tabla
       this.createTable();  
     }else{
-      console.log("Estas fuera, paramos ejecución");
       this.modalService.open( this.modal );
-      //BOTÓN DE VOLVER, RESETEAR FORM Y VARIABLES?
     }      
   }
 
@@ -103,12 +101,13 @@ export class RoverComponent implements OnInit, OnDestroy {
   
     this.roverInGrid();
   }
+  element:HTMLElement | null;
   //mostrar rover 
   roverInGrid(){   
       this.cd.detectChanges();
-      let element = document.getElementById(this.currentId);
-      if (element) {
-        element.innerHTML= '<i class="bi bi-capslock" #roverElement></i>';
+      this.element = document.getElementById(this.currentId);
+      if (this.element) {
+        this.element.innerHTML= '<i class="bi bi-capslock" #roverElement></i>';
         this.commandsLine();     
       }    
   } 
@@ -118,8 +117,9 @@ export class RoverComponent implements OnInit, OnDestroy {
   } 
   
   //linea de comandos, recorremos string
-  commandsLine(){     
+  commandsLine(){        
     for(let i of this.rover.roverCommands) {
+        //enviar comandos 
         switch( i ){
           case "A":
             this.rover.advance();
@@ -131,7 +131,27 @@ export class RoverComponent implements OnInit, OnDestroy {
              this.rover.right();
             break;
         }
-        this.roverInsideGrid = this.insideGrid();       
+        this.roverInsideGrid = this.insideGrid(); 
+
+        //mostrar rover
+        this.currentId = this.rover.roverX.toString() + this.rover.roverY.toString();
+        this.element = document.getElementById(this.currentId);
+        if(this.element){
+          switch( i ){
+            case "A":
+              this.element.innerHTML= '<i class="bi bi-capslock" #roverElement></i>';
+              break;
+            case "L":
+              this.element.style.transform ="rotate(90deg)";
+              break;
+            case "R":
+              this.element.style.transform ="rotate(90deg)";
+              break;
+          }
+
+           
+        }       
+              
     }  
   }
   //comprobar que el rover este dentro del grid
@@ -145,10 +165,10 @@ export class RoverComponent implements OnInit, OnDestroy {
   }
   //navegar a home
   
-return(){
-  console.log("volver");
-  this.router.navigate(['..']);
-}
+  return(){
+    console.log("volver");
+    this.router.navigate(['..']);
+  }
 }
 
 

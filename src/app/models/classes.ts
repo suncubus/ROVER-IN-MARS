@@ -17,20 +17,20 @@ export class Rover {
         console.log("X" , this.roverX, "Y", this.roverY);
         switch( this.roverOrientation ){
           case "N":
-                console.log("avanzo hacia: " + this.roverX, "Y", this.roverY);
+                //console.log("avanzo hacia: " + this.roverX, "Y", this.roverY);
                 this.roverY -=1;
             break;
           case "S":
-                console.log("avanzo hacia: " + this.roverX, "Y", this.roverY);
-                this.roverX -=1;
+                //console.log("avanzo hacia: " + this.roverX, "Y", this.roverY);
+                this.roverY +=1;
             break;
           case "E":
-                console.log("avanzo hacia: " + this.roverX, "Y", this.roverY);
+                //console.log("avanzo hacia: " + this.roverX, "Y", this.roverY);
                 this.roverX +=1;
             break;
           case "W":
-                console.log("avanzo hacia: " + this.roverX, "Y", this.roverY);
-                this.roverY +=1;
+                //console.log("avanzo hacia: " + this.roverX, "Y", this.roverY);
+                this.roverX -=1;
             break;
         }
         
@@ -40,19 +40,19 @@ export class Rover {
         switch( this.roverOrientation ){
           case "N":
                 this.roverOrientation = "W";
-                console.log("giro izquierda: " + this.roverOrientation);
+                //console.log("giro izquierda: " + this.roverOrientation);
             break;
           case "S":
                 this.roverOrientation = "E";
-                console.log("giro izquierda: " + this.roverOrientation);
+                //console.log("giro izquierda: " + this.roverOrientation);
             break;
           case "E":
                 this.roverOrientation = "N";
-                console.log("giro izquierda: " + this.roverOrientation);
+                //console.log("giro izquierda: " + this.roverOrientation);
             break;
           case "W":
                 this.roverOrientation = "S";
-                console.log("giro izquierda: " + this.roverOrientation);
+                //console.log("giro izquierda: " + this.roverOrientation);
             break;
         }
     }
@@ -61,19 +61,19 @@ export class Rover {
         switch( this.roverOrientation ){
           case "N":
                 this.roverOrientation = "E";
-                console.log("giro derecha: " + this.roverOrientation);
+                //console.log("giro derecha: " + this.roverOrientation);
             break;
           case "S":
                 this.roverOrientation = "W";
-                console.log("giro derecha: " + this.roverOrientation);
+                //console.log("giro derecha: " + this.roverOrientation);
             break;
           case "E":
                 this.roverOrientation = "S";
-                console.log("giro derecha: " + this.roverOrientation);
+                //console.log("giro derecha: " + this.roverOrientation);
             break;
           case "W":
                 this.roverOrientation = "N";
-                console.log("giro derecha: " + this.roverOrientation);
+                //console.log("giro derecha: " + this.roverOrientation);
             break;
         }
         

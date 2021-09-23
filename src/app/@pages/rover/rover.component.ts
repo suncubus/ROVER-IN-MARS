@@ -1,19 +1,23 @@
-import { Component, OnInit, OnDestroy, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ChangeDetectorRef, ViewChild } from '@angular/core';
+
 import { FormDataService } from 'src/app/services/form-data.service';
 import { Subscription } from 'rxjs';
 
-//interfaces y clases
-import { Area, Rover} from '../../interfaces/interfaces';
+import { Router } from '@angular/router';
 
+import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
+
+//clases
+import {  Rover} from '../../models/classes';
 @Component({
   selector: 'app-rover',
   templateUrl: './rover.component.html',
   styleUrls: ['./rover.component.scss']
 })
 
-export class RoverComponent implements OnInit, OnDestroy, AfterViewInit {
+export class RoverComponent implements OnInit, OnDestroy {
   
-  area:Area={}; //interface ? propiedades opcionales / inicializar
+  //area:Area={}; //interface ? propiedades opcionales / inicializar
   rover: Rover = new Rover(); //clase
 
   dataObtained:string;
@@ -33,66 +37,88 @@ export class RoverComponent implements OnInit, OnDestroy, AfterViewInit {
   positionInitX: number = 0;
   positionInitY: number = 0;
   orientationInit: string = "";
- 
 
-  constructor( private data:FormDataService,public elementRef: ElementRef, private cd:ChangeDetectorRef) { }
+  roverInsideGrid:boolean = false;
 
-  ngOnInit(): void {
-    this.datosSubscription =  this.data.getData().subscribe(info => {
+  endX:number = 0;
+  endY:number = 0;
+
+  //modal
+  @ViewChild("modalData") modal: ElementRef;
+  
+  constructor(private data:FormDataService,public elementRef: ElementRef, private cd:ChangeDetectorRef, private modalService: NgbModal,  private router: Router) { }
+
+  async ngOnInit() {
+    //obtenemos datos del form
+    this.datosSubscription =  await this.data.getData().subscribe(info => {
         this.dataObtained = info;
     });
     //convertimos el string a objeto
     this.dataObj = JSON.parse(this.dataObtained);
 
-    /*PROMESAS ??? */
     this.saveData(this.dataObj);
-
   }
 
-  
   ngOnDestroy() {
     this.subscription.unsubscribe(); 
   }
-  //Almacenar datos en los objetos 
-  saveData(dataObt:any){
-    this.area.areaX = parseInt(dataObt.areaSizeX);
-    this.area.areaY = parseInt(dataObt.areaSizeY);
 
+  //Almacenar datos en los objetos 
+  saveData(dataObt:any){       
+    //grid    
+    this.endX = parseInt(dataObt.areaSizeX);
+    this.endY = parseInt(dataObt.areaSizeY);
+    //rover
     this.rover.roverX = parseInt(dataObt.positionX);
     this.rover.roverY = parseInt(dataObt.positionY);
     this.rover.roverOrientation = dataObt.orientation;
     this.rover.roverCommands = dataObt.commandsInput;
-
-    //posicion inicial
+    //posicion inicial para mostrar 
     this.positionInitX= this.rover.roverX;
     this.positionInitY = this.rover.roverY;
     this.orientationInit = this.rover.roverOrientation;
     //id de la celda en la que comienza el rover 
     this.currentId = this.positionInitX.toString() + this.positionInitY.toString();
-    
-    this.createTable();
+
+    //comprobamos que esté dentro
+    this.roverInsideGrid = this.insideGrid();
+    if(!this.roverInsideGrid){
+      //creamos la tabla
+      this.createTable();  
+    }else{
+      console.log("Estas fuera, paramos ejecución");
+      this.modalService.open( this.modal );
+      //BOTÓN DE VOLVER, RESETEAR FORM Y VARIABLES?
+    }      
   }
 
   //Generamos la tabla
   createTable(){
-    if(this.area.areaX  && this.area.areaY){
-      //crear celdas
-      this.tableX.length = this.area.areaX;
-      this.tableY.length = this.area.areaY;
-      
-      //tamaño de la tabla celdas 
-      this.widthPixels = ((this.area.areaX * 4)+"%").toString();
-      this.heightPixels = ((this.area.areaY * 4)+"%").toString();  
-    } 
+    //crear n celdas
+    this.tableX.length = this.endX ;
+    this.tableY.length = this.endY;      
+    //tamaño de la tabla celdas 
+    this.widthPixels = ((this.endX  * 4)+"%").toString();
+    this.heightPixels = ((this.endY * 4)+"%").toString(); 
+  
+    this.roverInGrid();
   }
+  //mostrar rover 
+  roverInGrid(){   
+      this.cd.detectChanges();
+      let element = document.getElementById(this.currentId);
+      if (element) {
+        element.innerHTML= '<i class="bi bi-capslock" #roverElement></i>';
+        this.commandsLine();     
+      }    
+  } 
+  //string para el id de las celdas
   changeId(x:number,y:number){
-    return (x+1).toString() + (y+1).toString();
-  }
- 
-  commandsLine(){
- 
-
-    //linea de comandos
+    return (x).toString() + (y).toString();
+  } 
+  
+  //linea de comandos, recorremos string
+  commandsLine(){     
     for(let i of this.rover.roverCommands) {
         switch( i ){
           case "A":
@@ -105,26 +131,25 @@ export class RoverComponent implements OnInit, OnDestroy, AfterViewInit {
              this.rover.right();
             break;
         }
-
+        this.roverInsideGrid = this.insideGrid();       
+    }  
+  }
+  //comprobar que el rover este dentro del grid
+  insideGrid(){   
+    if((this.rover.roverX < 0 || this.rover.roverX > this.endX) || (this.rover.roverY < 0 || this.rover.roverY > this.endY)){
+      console.log("ESTA FUERA")
+      return true;
+    }else{
+      return false;
     }
+  }
+  //navegar a home
   
-  }
-  ngAfterViewInit(){
-      //mostrar rover 
-    this.cd.detectChanges();
-    let element = document.getElementById(this.currentId);
-
-    if (element) {
-      console.log(element)
-      element.innerHTML= '<i class="bi bi-capslock" #roverElement></i>';
-      //this.commandsLine();
-     
-    }
-   
-    
-  }
+return(){
+  console.log("volver");
+  this.router.navigate(['..']);
+}
 }
 
 
 
-    //let roverInsideGrid = true;

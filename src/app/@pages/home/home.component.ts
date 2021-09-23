@@ -21,6 +21,7 @@ export class HomeComponent {
 
   //string para todos los datos obtenidos del formulario
   formu       :string = "";  
+  formuObj    :[] = [];
 
   //campos de formulario
   homeForm: FormGroup = this.fb.group({
@@ -35,7 +36,7 @@ export class HomeComponent {
   //Injectamos el Servicio formBuilder
   constructor(private fb:FormBuilder, private router: Router, private data:FormDataService ) { }
  
-
+  
   //validación de formulario
   isValid( campo: string){ 
     return this.homeForm.controls[campo].errors && this.homeForm.controls[campo].touched;
@@ -45,20 +46,22 @@ export class HomeComponent {
   sendData(){    
     //si no es válido
     if(this.homeForm.invalid){
-      //Pone como si todos los campos han sido tocados
-      this.homeForm.markAllAsTouched();
-      return;
+        //Pone como si todos los campos han sido tocados
+        this.homeForm.markAllAsTouched();      
+        return;
     }else{
-      //convierto a string
-      this.formu = JSON.stringify(this.homeForm.value);
-      //convierto a objeto
-      //let formuValues = JSON.parse(formu);
-      this.data.setData(this.formu);
+     
+          //convierto a string
+          this.formu = JSON.stringify(this.homeForm.value);
+          //envio de datos
+          this.data.setData(this.formu);
+          //navegar a rover
+          this.router.navigate(['/rover']);
+          ////vaciamos el formulario
+          this.homeForm.reset();        
 
-      this.router.navigate(['/rover']);
-      ////vaciamos el formulario
-      this.homeForm.reset();
-    }
+    } 
+    
   }
 
   //btn commands functions
